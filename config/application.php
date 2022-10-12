@@ -18,8 +18,10 @@ return array(
 	'ItemImageNameFormat'		=> '%d.png',				// The filename format for item images (defaults to {itemid}.png).
 	'MonsterImageNameFormat'	=> '%d.gif',				// The filename format for monster images (defaults to {monsterid}.gif).
 	'JobImageNameFormat'		=> '%d.gif',				// The filename format for job images (defaults to {jobid}.gif).
+	'DivinePrideIntegration'	=> true,					// Dowload monsters and items images from https://www.divine-pride.net if it's not exist.
 	'ForceEmptyEmblem'			=> false,					// Forcefully display empty guild emblems, helpful when you don't have GD2 installed.
 	'EmblemCacheInterval'		=> 12,						// Hourly interval to re-cache guild emblems (set to 0 to disable emblem cache).
+	'EmblemUseWebservice'		=> true,					// Load emblems from WebService?
 	'SessionCookieExpire'		=> 48,						// Duration in hours.
 	'AdminMenuGroupLevel'		=> AccountLevel::LOWGM,		// The starting group ID for which module actions are moved into the admin menu for display.
 	'DateDefaultTimezone'		=> 'UTC',					// The default timezone, consult the PHP manual for valid timezones: http://php.net/timezones (null for defaut system TZ)
@@ -85,7 +87,7 @@ return array(
 	'ReCaptchaTheme'			=> 'light',					// ReCaptcha theme to use (Value: dark or light) (see: https://developers.google.com/recaptcha/docs/display#render_param)
 	'DisplaySinglePages'		=> true,					// Whether or not to display paging for single page results.
 	'ForwardYears'				=> 15,						// (Visual) The number of years to display ahead of the current year in date inputs.
-	'BackwardYears'				=> 30,						// (Visual) The number of years to display behind the current year in date inputs.
+	'BackwardYears'				=> 60,						// (Visual) The number of years to display behind the current year in date inputs.
 	'ColumnSortAscending'		=> ' ▲',					// (Visual) Text displayed for ascending sorted column names.
 	'ColumnSortDescending'		=> ' ▼',					// (Visual) Text displayed for descending sorted column names.
 	'CreditExchangeRate'		=> 1.0,						// The rate at which credits are exchanged for dollars.
@@ -102,6 +104,21 @@ return array(
 		//'admin3@localhost'								// -- because your Business Email is also checked.
 	),
 	'PaypalHackNotify'          => true,                    // Send email notification if hack attempt detected (Notification will be send for each address in list PayPalBusinessEmail and PayPalReceiverEmails)
+	'PayPalAllowedHosts'        => array(					// PayPal IP list https://www.paypal.com/fm/smarthelp/article/what-are-the-ip-addresses-for-live-paypal-servers-ts1056
+		'ipn.sandbox.paypal.com',
+		'notify.paypal.com',
+		'66.211.170.66',
+		'173.0.81.1',
+		'173.0.81.0/24',
+		'173.0.81.33',
+		'173.0.81.65',
+		'173.0.81.140',
+		'64.4.240.0/21',
+		'64.4.248.0/22',
+		'6.211.168.0/22',
+		'173.0.80.0/20',
+		'91.243.72.0/23'
+	),
 	'GStorageLeaderOnly'		=> false,					// Only allow guild leader to view guild storage rather than all members?
 	'DivorceKeepChild'			=> false,					// Keep child after divorce?
 	'DivorceKeepRings'			=> false,					// Keep wedding rings after divorce?
@@ -219,11 +236,11 @@ return array(
 // Discord Webhooks
 	'DiscordUseWebhook'			=> false,
 	'DiscordWebhookURL'			=> 'enter_webhook_url_from_discord_here',
-	'DiscordSendOnRegister'			=> true,
-	'DiscordSendOnNewTicket'		=> true,
-	'DiscordSendOnWebCommand'		=> true,
-	'DiscordSendOnMarketing'		=> true,
-
+    'DiscordSendOnRegister'     => true, // Sends a channel message when someone registers
+    'DiscordSendOnNewTicket'    => true, // Sends a channel message when someone submits a new ticket to the Service Desk
+    'DiscordSendOnWebCommand'   => true, // Sends a channel message when someone uses the Web Command feature in FluxCP
+    'DiscordSendOnMarketing'    => true, // Sends a channel message when someone uses the Send Email feature in FluxCP
+    
 	'TinyMCEKey'				=> 'no-key',				// Register for a key at https://www.tiny.cloud/my-account/dashboard/
 
 	// These are the main menu items that should be displayed by themes.
@@ -377,7 +394,6 @@ return array(
 		),
 		'item'			=> array(
 			'index'			=> 'List Items',
-			'add'			=> 'Add Item',
 			'iteminfo'		=> 'Add Item Info',
 		),
 		'pages'			=> array(
@@ -438,9 +454,9 @@ return array(
 	// Shouldn't touch this either.
 	'ItemTypes'						=> include('itemtypes.php'),
 
-	// Special Item Types with their corresponding names (For Weapons & Ammo by default).
+	// Item SubTypes with their corresponding names.
 	// Shouldn't touch this either.
-	'ItemTypes2'					=> include('itemtypes2.php'),
+	'ItemSubTypes'					=> include('itemsubtypes.php'),
 
 	// Common Equip Location Combinations with their corresponding names.
 	// Shouldn't touch this unless you've added custom combinations.
@@ -473,6 +489,7 @@ return array(
 
 	// rA monster modes mapping.
 	'MonsterModes'					=> include('monstermode.php'),
+	'MonsterAI'						=> include('monster_ai.php'),
 
 	// Item shop categories.
 	'ShopCategories'				=> include('shopcategories.php'),
@@ -488,6 +505,15 @@ return array(
 
 	// Castle names.
 	'CastleNames'					=> include('castlenames.php'),
+
+	// Trade restrictions.
+	'TradeRestriction'				=> include('trade_restrictions.php'),
+
+	// Item flags.
+	'ItemFlags'						=> include('itemsflags.php'),
+
+	// Item random options.
+	'RandomOptions'					=> include('item_randoptions.php'),
 
 	// DON'T TOUCH. THIS IS FOR DEVELOPERS.
 	'FluxTables'		=> array(
